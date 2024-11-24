@@ -1,8 +1,19 @@
 ﻿using System;
 
-public class Artist
+namespace OopLabs.Linq
 {
-	public Artist()
-	{
-	}
+    internal class Artist
+    {
+        public string Name { get; set; }
+
+        public Artist(string name)
+        {
+            Name = name;
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
 }

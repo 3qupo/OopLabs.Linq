@@ -16,6 +16,17 @@ namespace OopLabs.Linq
         public MainForm()
         {
             InitializeComponent();
+            InitializeArtistsListBox();
+        }
+
+        private void InitializeArtistsListBox()
+        {
+            var artists = Album.GetAlbums()
+                .Select(album => album.Artist)
+                .Distinct()
+                .ToList();
+
+            ArtistsListBox.DataSource = artists;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -88,10 +99,17 @@ namespace OopLabs.Linq
 
         private void ArtistsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            AlbumsListBox.DataSource = Album.GetAlbums()
-                                            .Where(album => album.Artist == ArtistsListBox.SelectedItem.ToString())
-                                            .OrderByDescending(album => album.Date)
-                                            .ToList();
+            string selectedArtist = ArtistsListBox.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(selectedArtist))
+            {
+                var albums = Album.GetAlbums()
+                    .Where(album => album.Artist == selectedArtist)
+                    .ToList();
+
+                AlbumsListBox.DataSource = albums;
+                AlbumsListBox.DisplayMember = "Title";
+            }
         }
     }
 }
